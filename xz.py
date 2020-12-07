@@ -23,16 +23,21 @@ options = {
 
 #获取文章名称
 def get_title(url):
-    response = requests.get(url)
 
+    header1 = {
+        'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.1; ',
+         }
+    response = requests.get(url,headers=header1)
     if response.status_code == 404 or str(response.status_code)[0:2] == "40":    #判断是否404，如果是，则退出
         return 0
-    response2 = urlopen(url, timeout=5)
-    html_byte = response2.read()
+
+
+    response2 = requests.get(url,headers=header1)
+    html_byte = response2.content
 
     charset = chardet.detect(html_byte)['encoding']  # 探测页面的编码方式
+    result = requests.get(url,headers=header1)
 
-    result = requests.get(url)
     if (charset.lower() == "GB2312" or charset.lower() == "gbk"):
         result.encoding = 'gbk'
     else:
@@ -44,20 +49,20 @@ def get_title(url):
 #过滤掉部分可能导致文件创建异常的字符
 def filename_filter(filename):  
     string1="\/:*?\"<>|"
-    #print(string1)
     for s1 in string1:
         filename= filename.replace(s1," ")
-        print
     return(filename)
 
 
 if __name__ == '__main__':
     try:
-        for i in range(8590,0,-1):   #逆序循环爬取，注意这里要添加最新文章的页码 https://xz.aliyun.com/t/8590
+
+        for i in range(8590,0,-1):   #逆序循环爬取，注意这里要添加最新文章的页码
             try:
                 id = str(i)
                 print(id)
-                url =  "https://xz.aliyun.com/t/" + id
+                url = "https://xz.aliyun.com/t/" + id
+                print(url)
                 f = get_title(url)
                 if not f:
                     continue
@@ -71,3 +76,4 @@ if __name__ == '__main__':
     except Exception as e:
         print(str(e))
         pass
+
