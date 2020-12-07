@@ -1,9 +1,10 @@
 # -*- coding: utf8 -*-
+#Author：BlusKing
 import pdfkit
 import requests
 import  chardet
 import re
-from urllib.request import urlopen
+
 
 path_wk = r'.\wkhtmltopdf\bin\wkhtmltopdf.exe'   #pdf转换工具 ，非windwos系统可自行安装然后指定位置
 config = pdfkit.configuration(wkhtmltopdf = path_wk)
