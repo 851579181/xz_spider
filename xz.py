@@ -25,7 +25,7 @@ options = {
 def get_title(url):
     response = requests.get(url)
 
-    if response.status_code == 404 or str(response.status_code)[0:2] == "40":
+    if response.status_code == 404 or str(response.status_code)[0:2] == "40":    #判断是否404，如果是，则退出
         return 0
     response2 = urlopen(url, timeout=5)
     html_byte = response2.read()
@@ -64,7 +64,7 @@ if __name__ == '__main__':
                 f = filename_filter(f)
                 print(f)
                 filename = "./"+id+" ："+f + ".pdf"
-                pdfkit.from_url(url, filename, configuration=config,options=options)
+                pdfkit.from_url(url, filename, configuration=config,options=options)  #转换成pdf
             except Exception as e:
                 print(str(e))
                 pass
